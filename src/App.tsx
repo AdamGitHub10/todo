@@ -14,10 +14,17 @@ const App: React.FC = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingTask, setEditingTask] = useState("");
 
+  // Get backend API URL from environment variable
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   // Fetch todos from backend
   const fetchTodos = async () => {
-    const res = await axios.get("http://localhost:5000/todos");
-    setTodos(res.data);
+    try {
+      const res = await axios.get(`${API_URL}/todos`);
+      setTodos(res.data);
+    } catch (err) {
+      console.error("Error fetching todos:", err);
+    }
   };
 
   useEffect(() => {
@@ -27,24 +34,36 @@ const App: React.FC = () => {
   // Create
   const addTodo = async () => {
     if (!newTask.trim()) return;
-    const res = await axios.post("http://localhost:5000/todos", { task: newTask });
-    setTodos([...todos, res.data]);
-    setNewTask("");
+    try {
+      const res = await axios.post(`${API_URL}/todos`, { task: newTask });
+      setTodos([...todos, res.data]);
+      setNewTask("");
+    } catch (err) {
+      console.error("Error adding todo:", err);
+    }
   };
 
   // Toggle completion
   const toggleTodo = async (todo: Todo) => {
-    await axios.put(`http://localhost:5000/todos/${todo.id}`, {
-      task: todo.task,
-      completed: !todo.completed
-    });
-    fetchTodos();
+    try {
+      await axios.put(`${API_URL}/todos/${todo.id}`, {
+        task: todo.task,
+        completed: !todo.completed,
+      });
+      fetchTodos();
+    } catch (err) {
+      console.error("Error toggling todo:", err);
+    }
   };
 
   // Delete
   const deleteTodo = async (id: number) => {
-    await axios.delete(`http://localhost:5000/todos/${id}`);
-    fetchTodos();
+    try {
+      await axios.delete(`${API_URL}/todos/${id}`);
+      fetchTodos();
+    } catch (err) {
+      console.error("Error deleting todo:", err);
+    }
   };
 
   // Start editing
@@ -55,13 +74,17 @@ const App: React.FC = () => {
 
   // Save edit
   const saveEdit = async (todo: Todo) => {
-    await axios.put(`http://localhost:5000/todos/${todo.id}`, {
-      task: editingTask,
-      completed: todo.completed
-    });
-    setEditingId(null);
-    setEditingTask("");
-    fetchTodos();
+    try {
+      await axios.put(`${API_URL}/todos/${todo.id}`, {
+        task: editingTask,
+        completed: todo.completed,
+      });
+      setEditingId(null);
+      setEditingTask("");
+      fetchTodos();
+    } catch (err) {
+      console.error("Error saving edit:", err);
+    }
   };
 
   return (
@@ -93,15 +116,17 @@ const App: React.FC = () => {
               </>
             ) : (
               <>
-  <span>{todo.task} — {todo.completed ? "Completed" : "Not Completed"}</span>
+                <span>
+                  {todo.task} — {todo.completed ? "Completed" : "Not Completed"}
+                </span>
 
-  {!todo.completed && (
-    <button onClick={() => toggleTodo(todo)}>Complete</button>
-  )}
+                {!todo.completed && (
+                  <button onClick={() => toggleTodo(todo)}>Complete</button>
+                )}
 
-  <button onClick={() => startEditing(todo.id, todo.task)}>Edit</button>
-  <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-</>
+                <button onClick={() => startEditing(todo.id, todo.task)}>Edit</button>
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+              </>
             )}
           </li>
         ))}

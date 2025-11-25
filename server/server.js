@@ -3,15 +3,20 @@ const cors = require("cors");
 const mysql = require("mysql2");
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json());
 
 // Database connection
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "todo_db"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+db.connect((err) => {
+  if (err) throw err;
+  console.log("MySQL connected!");
 });
 
 // Fetch all todos
@@ -56,4 +61,6 @@ app.delete("/todos/:id", (req, res) => {
   });
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// Dynamic port
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
