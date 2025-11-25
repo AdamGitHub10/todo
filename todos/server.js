@@ -1,28 +1,27 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json()); // replaces body-parser
 
 // MySQL connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",       // your MySQL username
-  password: "",       // your MySQL password
-  database: "todo_app"
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
-db.connect((err) => {
+connection.connect((err) => {
   if (err) throw err;
   console.log("MySQL connected!");
 });
 
 // Get all todos
 app.get("/todos", (req, res) => {
-  db.query("SELECT * FROM todos", (err, results) => {
+  connection.query("SELECT * FROM todos", (err, results) => {
     if (err) return res.status(500).send(err);
     res.json(results);
   });
@@ -31,9 +30,9 @@ app.get("/todos", (req, res) => {
 // Add a new todo
 app.post("/todos", (req, res) => {
   const { task } = req.body;
-  db.query("INSERT INTO todos (task) VALUES (?)", [task], (err, result) => {
+  connection.query("INSERT INTO todos (task) VALUES (?)", [task], (err, result) => {
     if (err) return res.status(500).send(err);
-    db.query("SELECT * FROM todos WHERE id = ?", [result.insertId], (err, results) => {
+    connection.query("SELECT * FROM todos WHERE id = ?", [result.insertId], (err, results) => {
       if (err) return res.status(500).send(err);
       res.json(results[0]);
     });
@@ -44,7 +43,7 @@ app.post("/todos", (req, res) => {
 app.put("/todos/:id", (req, res) => {
   const { id } = req.params;
   const { task, completed } = req.body;
-  db.query(
+  connection.query(
     "UPDATE todos SET task = ?, completed = ? WHERE id = ?",
     [task, completed, id],
     (err) => {
@@ -57,10 +56,12 @@ app.put("/todos/:id", (req, res) => {
 // Delete todo
 app.delete("/todos/:id", (req, res) => {
   const { id } = req.params;
-  db.query("DELETE FROM todos WHERE id = ?", [id], (err) => {
+  connection.query("DELETE FROM todos WHERE id = ?", [id], (err) => {
     if (err) return res.status(500).send(err);
     res.sendStatus(200);
   });
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// Dynamic port for Render
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
