@@ -24,7 +24,7 @@ body {
 .sidebar h1 {
   margin: 0 0 4px 0;
   font-size: 26px;
-  color: #4ade80;
+  color: #3b82f6;
   font-weight: 700;
 }
 
@@ -55,7 +55,7 @@ body {
 }
 
 .tabs .active-tab {
-  background: #4ade80;
+  background: #3b82f6;
   color: #0f0f0f;
   border-color: transparent;
 }
@@ -64,7 +64,7 @@ body {
   margin-top: auto;
   padding: 14px;
   border: none;
-  background: #4ade80;
+  background: #3b82f6;
   color: #0f0f0f;
   font-weight: 600;
   border-radius: 12px;
@@ -73,7 +73,7 @@ body {
 }
 
 .new-task-btn:hover {
-  background: #3ecf6d;
+  background: #2563eb;
   transform: translateY(-2px);
 }
 
@@ -148,6 +148,7 @@ ul {
   height: 12px;
   border-radius: 50%;
   margin-left: 14px;
+  background-color: #3b82f6;
 }
 
 .task-item button {
@@ -218,7 +219,7 @@ ul {
 }
 
 .modal-buttons button:last-child {
-  background: #4ade80;
+  background: #3b82f6;
   color: #0f0f0f;
 }
 
@@ -227,7 +228,7 @@ ul {
 }
 
 .modal-buttons button:last-child:hover {
-  background: #3ecf6d;
+  background: #2563eb;
 }
 
 .completed-section {
