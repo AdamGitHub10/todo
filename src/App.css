@@ -1,8 +1,9 @@
+/* ---------- GLOBAL ---------- */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212;
-  color: #fff;
+  font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+  background-color: #0f0f0f;
+  color: #e8e8e8;
 }
 
 .app-container {
@@ -10,79 +11,86 @@ body {
   height: 100vh;
 }
 
+/* ---------- SIDEBAR ---------- */
 .sidebar {
-  width: 280px;
-  background-color: #1f1f1f;
-  padding: 20px;
+  width: 260px;
+  background: #141414;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 8px rgba(0,0,0,0.5);
+  border-right: 1px solid rgba(255,255,255,0.06);
 }
 
 .sidebar h1 {
-  margin: 0 0 5px 0;
-  font-size: 28px;
-  color: #2ecc71;
+  margin: 0 0 4px 0;
+  font-size: 26px;
+  color: #4ade80;
+  font-weight: 700;
 }
 
 .sidebar p {
-  margin: 0 0 20px 0;
+  margin: 0 0 24px 0;
   font-size: 14px;
-  color: #bbb;
+  color: #888;
 }
 
 .tabs button {
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px;
-  color: #ccc;
-  background: #2a2a2a;
-  border: none;
-  border-radius: 8px;
+  padding: 12px;
+  color: #cfcfcf;
+  background: #1b1b1b;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
 }
 
 .tabs button:hover {
-  background-color: #333;
+  background-color: #222;
   color: white;
+  transform: translateX(3px);
 }
 
 .tabs .active-tab {
-  background-color: #2ecc71;
-  color: #121212;
+  background: #4ade80;
+  color: #0f0f0f;
+  border-color: transparent;
 }
 
 .new-task-btn {
   margin-top: auto;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  background-color: #2ecc71;
-  color: #121212;
+  background: #4ade80;
+  color: #0f0f0f;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
 }
 
 .new-task-btn:hover {
-  background-color: #27ae60;
+  background: #3ecf6d;
+  transform: translateY(-2px);
 }
 
+/* ---------- MAIN ---------- */
 .main {
   flex: 1;
-  padding: 30px;
+  padding: 40px;
   overflow-y: auto;
 }
 
 h2 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-size: 28px;
-  color: #fff;
+  font-weight: 600;
 }
 
+/* ---------- TASK LIST ---------- */
 ul {
   list-style: none;
   padding: 0;
@@ -93,20 +101,22 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1e1e1e;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  transition: all 0.2s;
+  background: #161616;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  transition: all 0.25s ease;
 }
 
 .task-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  background: #1b1b1b;
 }
 
 .task-item.completed {
-  opacity: 0.6;
+  opacity: 0.5;
   text-decoration: line-through;
 }
 
@@ -114,119 +124,124 @@ ul {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 10px;
+  margin-left: 12px;
 }
 
 .task-content span {
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .task-date {
-  font-size: 12px;
-  color: #888;
+  font-size: 13px;
+  color: #777;
 }
 
 .task-date.overdue {
-  color: #e74c3c;
-  font-weight: bold;
+  color: #ef4444;
+  font-weight: 600;
 }
 
 .priority-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  margin-left: 10px;
+  margin-left: 14px;
 }
 
 .task-item button {
   margin-left: 10px;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  background: #2a2a2a;
-  color: #ccc;
-  transition: all 0.2s;
+  background: #212121;
+  color: #ddd;
+  transition: all 0.2s ease;
 }
 
 .task-item button:hover {
-  background: #333;
-  color: #fff;
+  background: #2a2a2a;
 }
 
+/* ---------- MODAL ---------- */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.2s ease-in;
+  backdrop-filter: blur(4px);
 }
 
 .modal {
-  background: #1f1f1f;
+  background: #161616;
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 14px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  max-width: 420px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
-.modal input, .modal select {
+.modal input,
+.modal select {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background: #2a2a2a;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #1f1f1f;
   color: #fff;
+  font-size: 15px;
 }
 
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
 }
 
 .modal-buttons button {
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 600;
 }
 
 .modal-buttons button:first-child {
-  background: #333;
+  background: #262626;
   color: #ccc;
 }
 
 .modal-buttons button:last-child {
-  background: #2ecc71;
-  color: #121212;
+  background: #4ade80;
+  color: #0f0f0f;
 }
 
 .modal-buttons button:first-child:hover {
-  background: #444;
+  background: #2f2f2f;
 }
 
 .modal-buttons button:last-child:hover {
-  background: #27ae60;
+  background: #3ecf6d;
 }
 
 .completed-section {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .no-tasks {
   text-align: center;
-  color: #777;
+  color: #666;
   margin-top: 20px;
 }
 
+/* ---------- ANIMATIONS ---------- */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
